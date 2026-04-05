@@ -1,6 +1,7 @@
+
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../../contexts/CartContext';
+import { CartContext } from '../contexts/CartContext';
 import { Star, Plus, CheckCircle2 } from 'lucide-react';
 
 export default function ProductCard({ product }) {

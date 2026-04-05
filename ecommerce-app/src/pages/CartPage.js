@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../contexts/CartContext';
 import { AuthContext } from '../contexts/AuthContext';
-import CartItem from '../components/Cart/CartItem';
+import CartItem from '../components/CartItem'; // Updated Import
 import { ShoppingCart, ArrowLeft, ShieldCheck } from 'lucide-react';
 
 export default function CartPage() {

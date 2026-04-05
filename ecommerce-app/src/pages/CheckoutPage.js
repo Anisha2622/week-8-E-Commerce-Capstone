@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, CheckCircle2, ArrowLeft } from 'lucide-react';
-import CheckoutForm from '../components/Checkout/CheckoutForm';
+import CheckoutForm from '../components/CheckoutForm'; // Updated Import
 
 export default function CheckoutPage() {
   const navigate = useNavigate();

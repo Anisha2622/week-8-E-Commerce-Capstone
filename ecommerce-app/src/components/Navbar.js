@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Package, User, LogOut } from 'lucide-react';
-import { AuthContext } from '../../contexts/AuthContext';
-import { CartContext } from '../../contexts/CartContext';
+import { AuthContext } from '../contexts/AuthContext';
+import { CartContext } from '../contexts/CartContext';
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { useProducts } from '../hooks/useProducts';
-import ProductList from '../components/ProductList/ProductList';
+import ProductList from '../components/ProductList'; // Updated Import
 
 export default function Home() {
   const { products, loading, error } = useProducts();

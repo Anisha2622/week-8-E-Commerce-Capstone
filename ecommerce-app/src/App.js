@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Navbar'; // Updated Import
 
 // Performance Optimization: Lazy Loading routes
 const Home = lazy(() => import('./pages/Home'));

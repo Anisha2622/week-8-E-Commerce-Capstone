@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductCard from '../ProductCard/ProductCard';
+import ProductCard from './ProductCard'; // Updated local import
 
 export default function ProductList({ products }) {
   if (!products || products.length === 0) {
