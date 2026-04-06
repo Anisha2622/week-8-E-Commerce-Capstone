@@ -3,9 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import Navbar from './components/Navbar';
-import './index.css';
 
-// Standard Imports (No Lazy Loading to prevent cache chunk errors)
+// Standard Imports
 import Home from './pages/Home';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';

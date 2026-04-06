@@ -1,47 +1,93 @@
 import React, { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
 import { useProducts } from '../hooks/useProducts';
-import ProductList from '../components/ProductList'; // Updated Import
+import ProductList from '../components/ProductList';
 
 export default function Home() {
   const { products, loading, error } = useProducts();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
+  const [sort, setSort] = useState('default');
 
   const categories = ['all', ...new Set(products.map(p => p.category))];
   
   const filteredProducts = useMemo(() => {
-    return products.filter(p => {
+    // 1. Filter
+    let result = products.filter(p => {
       const matchSearch = p.title.toLowerCase().includes(search.toLowerCase());
       const matchCategory = category === 'all' || p.category === category;
       return matchSearch && matchCategory;
     });
-  }, [products, search, category]);
+
+    // 2. Sort
+    if (sort === 'price-low') result.sort((a, b) => a.price - b.price);
+    if (sort === 'price-high') result.sort((a, b) => b.price - a.price);
+    if (sort === 'rating') result.sort((a, b) => b.rating.rate - a.rating.rate);
+
+    return result;
+  }, [products, search, category, sort]);
 
   if (error) return <div className="text-center py-10 text-rose-500 font-bold">{error}</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="bg-slate-900 rounded-3xl p-8 md:p-12 mb-10 text-white shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
-        <div className="relative z-10 max-w-2xl">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Discover Premium Products.</h1>
-          <p className="text-lg text-slate-300 mb-8">Shop the latest trends in electronics, jewelry, and fashion.</p>
-          <div className="flex bg-white rounded-xl p-2 shadow-lg max-w-md focus-within:ring-2 focus-within:ring-blue-500 transition-all">
-            <div className="flex items-center pl-3 pr-2"><Search className="text-slate-400" size={20} /></div>
-            <input type="text" placeholder="Search for products..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full bg-transparent text-slate-900 px-2 py-2 focus:outline-none" />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
+      
+      {/* Minimalist Hero Section */}
+      <div className="text-center py-12 mb-4">
+        <h1 className="text-5xl md:text-6xl font-serif font-extrabold text-slate-900 mb-4 tracking-tight">
+          Discover Your Style
+        </h1>
+        <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+          Curated products for every occasion. Shop the latest trends with confidence.
+        </p>
+      </div>
+
+      {/* Control Bar: Search & Filters */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-10">
+        
+        {/* Search */}
+        <div className="relative w-full md:w-1/2">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="text-slate-400" size={18} />
           </div>
+          <input 
+            type="text" 
+            placeholder="Search products..." 
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-colors shadow-sm"
+          />
         </div>
+        
+        {/* Filters */}
+        <div className="flex w-full md:w-auto gap-4">
+          <select 
+            value={category} 
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full md:w-auto bg-white border border-slate-200 text-slate-700 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 shadow-sm cursor-pointer"
+          >
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat === 'all' ? 'All Categories' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
+          </select>
+          
+          <select 
+            value={sort} 
+            onChange={(e) => setSort(e.target.value)}
+            className="w-full md:w-auto bg-white border border-slate-200 text-slate-700 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 shadow-sm cursor-pointer"
+          >
+            <option value="default">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+
       </div>
 
-      <div className="flex gap-2 overflow-x-auto pb-4 mb-6 scrollbar-hide">
-        {categories.map(cat => (
-          <button key={cat} onClick={() => setCategory(cat)} className={`px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all border ${category === cat ? 'bg-slate-900 text-white border-slate-900 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`}>
-            {cat.charAt(0).toUpperCase() + cat.slice(1)}
-          </button>
-        ))}
-      </div>
-
+      {/* Grid */}
       {loading ? (
         <div className="text-center py-20 text-slate-500 font-semibold text-lg">Loading Catalog...</div>
       ) : (
